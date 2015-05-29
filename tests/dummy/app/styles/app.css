@@ -1,0 +1,15 @@
+.ff-date-calendar-previous-icon::before {
+  content: 'Previous'
+}
+
+.ff-date-calendar-next-icon::before {
+  content: 'Next'
+}
+
+.selected {
+  background-color: #ccc;
+}
+
+.is-in-range {
+  background-color: #e3e3e3;
+}

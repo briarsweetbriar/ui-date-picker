@@ -1,0 +1,27 @@
+<header>
+  <a class="ff-date-calendar-previous" {{action "previousMonth"}}><span class="ff-date-calendar-previous-icon"></span></a>
+  <a class="ff-date-calendar-next" {{action "nextMonth"}}><span class="ff-date-calendar-next-icon"></span></a>
+
+  <div class="ff-date-calendar-current">{{formattedCurrentMonth}}</div>
+</header>
+
+<table class="ff-date-calendar-month">
+  <thead>
+    <tr>
+      {{#each dayNames as |dayOfWeek|}}
+        <th class="ff-date-calendar-header">{{dayOfWeek}}</th>
+      {{/each}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each weeks as |week|}}
+      <tr>
+        {{#each week as |day|}}
+          <td {{action 'selectDate' day.date dropdown day.isDisabled}} class="ff-date-calendar-day {{if day.isSelected 'selected'}} {{if day.isStartDate 'is-start-date'}} {{if day.isNotInMonth 'is-not-in-month'}} {{if day.isEndDate 'is-end-date'}} {{if day.isDisabled 'disabled'}} {{if day.isInRange 'is-in-range'}} {{if day.isToday 'is-today'}}">
+            <span>{{day.asDayOfMonth}}</span>
+          </td>
+        {{/each}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
