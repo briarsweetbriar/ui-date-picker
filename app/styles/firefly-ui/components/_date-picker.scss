@@ -1,0 +1,149 @@
+.tf-date-picker {
+  header {
+    position: relative;
+
+    padding: 16px;
+
+    border-bottom: solid 1px $gray-lighter;
+
+    .tf-date-picker__next-month,
+    .tf-date-picker__previous-month {
+      cursor: pointer;
+      position: absolute;
+      font-size: 20px;
+      color: $gray-med
+    }
+
+    .tf-date-picker__next-month {
+      right: 12px;
+    }
+
+    .tf-date-picker__previous-month {
+      left: 12px;
+    }
+
+    .tf-date-picker__current-month {
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+
+  .tf-date-picker__start-date {
+    float: left;
+    width: 56px;
+  }
+
+  .tf-date-picker__end-date {
+    width: 56px;
+    margin-left: 24px;
+    float: left;
+    position: relative;
+
+    &::before {
+      content: "-";
+      position: absolute;
+      left: -20px;
+      font-size: 36px;
+    }
+  }
+
+  .tf-date-picker__date {
+    font-size: 2.2em;
+  }
+
+  .tf-date-picker__month,
+  .tf-date-picker__year {
+    line-height: 0.3em;
+  }
+
+  .tf-date-picker__ranges {
+    float: left;
+    width: 120px;
+    padding: 10px;
+
+    .tf-btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .tf-date-picker__range-controls {
+    padding: 0 0 20px 20px;
+
+    .tf-input {
+      width: 105px;
+      display: inline;
+    }
+  }
+
+  .tf-date-picker__calendar-month {
+    margin: 16px;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    th {
+      font-family: sans-serif;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 12px;
+      height: 30px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .tf-date-picker__calendar-day {
+      text-align: center;
+      cursor: pointer;
+      width: 34px;
+      height: 34px;
+
+      span {
+        padding: 8px;
+        display: block;
+      }
+
+      &.is-not-in-month {
+        color: $gray;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        color: $gray;
+      }
+
+      &.is-today span {
+        //border: 1px solid $gray-lighter;
+      }
+
+      &.selected {
+        position: relative;
+
+        span {
+          top: 0;
+          left: 0;
+          width: 34px;
+          height: 34px;
+          position: absolute;
+          border-radius: 50%;
+
+          color: $green-dark;
+          background-color: $green-light;
+        }
+      }
+
+      &.is-in-range {
+        background-color: lighten($green-light, 10%);
+
+        &.is-start-date {
+          border-top-left-radius: 50%;
+          border-bottom-left-radius: 50%;
+        }
+
+        &.is-end-date {
+          border-top-right-radius: 50%;
+          border-bottom-right-radius: 50%;
+        }
+      }
+    }
+  }
+}
