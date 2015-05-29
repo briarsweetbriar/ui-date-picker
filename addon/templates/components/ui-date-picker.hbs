@@ -1,0 +1,57 @@
+{{#if inline}}
+  <button id={{datePickerId}} {{action "setCurrentMonth"}} class="tf-btn tf-btn--default">
+    {{#if value}}
+      {{moment startDate "MM/DD/YYYY"}}
+      <span class="tf-icon tf-icon--menu-down"></span>
+    {{else}}
+      {{title}}
+      <span class="tf-icon tf-icon--calendar"></span>
+    {{/if}}
+  </button>
+{{else}}
+  <button id={{datePickerId}} {{action "setCurrentMonth"}} class="tf-btn tf-btn--default tf-btn--square">
+    {{#if value}}
+      <span class="tf-date-picker__month">{{moment value "MMM"}}</span>
+      <span class="tf-date-picker__date">{{moment value "DD"}}</span>
+      <span class="tf-date-picker__year">{{moment value "YYYY"}}</span>
+    {{else}}
+      <span class="tf-btn--square__title">{{title}}</span>
+      <span class="tf-btn--square__icon tf-icon tf-icon--calendar"></span>
+    {{/if}}
+  </button>
+{{/if}}
+
+{{#ui-dropdown for=datePickerId on=on flow=flow will-change="month" month=month as |dropdown|}}
+  <header>
+    <a class="tf-date-picker__previous-month" {{action "previousMonth"}}>
+      <span class="tf-icon tf-icon--menu-left"></span>
+    </a>
+    <a class="tf-date-picker__next-month" {{action "nextMonth"}}>
+      <span class="tf-icon tf-icon--menu-right"></span>
+    </a>
+
+    <div class="tf-date-picker__current-month">{{moment currentMonth "MMMM YYYY"}}</div>
+
+  </header>
+
+  <table class="tf-date-picker__calendar-month">
+    <thead>
+      <tr>
+        {{#each dayNames as |dayOfWeek|}}
+          <th class="tf-date-picker__calendar-header">{{dayOfWeek}}</th>
+        {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each weeks as |week|}}
+        <tr>
+          {{#each week as |day|}}
+            <td {{action 'selectDate' day.date dropdown day.isDisabled}} class="tf-date-picker__calendar-day {{if day.isSelected 'selected'}} {{if day.isNotInMonth 'is-not-in-month'}} {{if day.isDisabled 'disabled'}} {{if day.isStartDate 'is-start-date'}} {{if day.isEndDate 'is-end-date'}} {{if day.isInRange 'is-in-range'}} {{if day.isToday 'is-today'}}">
+              <span>{{moment day.date 'D'}}</span>
+            </td>
+          {{/each}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{/ui-dropdown}}
