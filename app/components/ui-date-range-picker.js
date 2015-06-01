@@ -1,3 +1,3 @@
-import uiDateRangePicker from 'firefly-ui/components/ui-date-range-picker';
+import uiDateRangePicker from 'ui-date-picker/components/ui-date-range-picker';
 
 export default uiDateRangePicker;
