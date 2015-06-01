@@ -194,8 +194,8 @@ export default DatePicker.extend({
       const startDate = moment(this.get('startDate'));
       const endDate = moment(this.get('endDate'));
 
-      this.set('startDate', startDate.add(periodCount, periodType));
-      this.set('endDate', endDate.add(periodCount, periodType).endOf(periodType));
+      this.set('startDate', startDate.add(periodCount, periodType).toDate());
+      this.set('endDate', endDate.add(periodCount, periodType).endOf(periodType).toDate());
     },
 
     /**
@@ -209,8 +209,8 @@ export default DatePicker.extend({
       const startDate = moment(this.get('startDate'));
       const endDate = moment(this.get('endDate'));
 
-      this.set('startDate', startDate.subtract(periodCount, periodType));
-      this.set('endDate', endDate.subtract(periodCount, periodType).endOf(periodType));
+      this.set('startDate', startDate.subtract(periodCount, periodType).toDate());
+      this.set('endDate', endDate.subtract(periodCount, periodType).endOf(periodType).toDate());
     }
   },
 
