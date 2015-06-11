@@ -5,8 +5,7 @@ import layout from '../templates/components/ui-date-calendar';
 
 const {
   on,
-  computed,
-  generateGuid
+  computed
 } = Ember;
 
 const { reads } = computed;
@@ -17,7 +16,7 @@ const { reads } = computed;
  * Represents a day, binds computed properties to the date.
  */
 const DateCalendarDay = Ember.Object.extend({
-  value: reads('datePicker.value'),
+  selectedDate: reads('datePicker.selectedDate'),
   month: reads('datePicker.currentMonth'),
 
   asDayOfMonth: moment('date', 'D'),
@@ -36,8 +35,8 @@ const DateCalendarDay = Ember.Object.extend({
    *
    * @property isSelected
    */
-  isSelected: computed('value', function() {
-    return this.get('date').isSame(this.get('value') || null, 'day');
+  isSelected: computed('selectedDate', function() {
+    return this.get('date').isSame(this.get('selectedDate') || null, 'day');
   }),
 
   /**
@@ -59,7 +58,7 @@ const DateCalendarDay = Ember.Object.extend({
   * @property isNotInMonth
   */
 
-  isNotInMonth: computed('value', 'month', function() {
+  isNotInMonth: computed('selectedDate', 'month', function() {
     return !this.get('date').isSame(this.get('month'), 'month');
   })
 });
@@ -71,28 +70,7 @@ const DateCalendarDay = Ember.Object.extend({
  */
 export default Ember.Component.extend({
   layout: layout,
-  classNames: ['tf-date-picker'],
-  classNameBindings: ['inline:tf-date-picker--inline'],
-
-  flow: 'align-left',
-
-  /**
-   * Class applied to the date picker button
-   *
-   * @property btnClass
-   */
-  btnClass: 'tf-btn--default',
-
-  datePickerId: computed(function () {
-    return generateGuid();
-  }),
-
-  /**
-   * The bound date value
-   *
-   * @property value
-   */
-  value: null,
+  classNames: ['ff-date-calendar'],
 
   formattedCurrentMonth: moment('currentMonth', 'MMMM YYYY'),
 
@@ -153,9 +131,28 @@ export default Ember.Component.extend({
     selectDate(date, isDisabled) {
       if (isDisabled) { return; }
 
-      this.set('value', date.toDate());
+      this.set('selectedDate', date);
+      this.send('onChange', date);
+    },
+
+    onChange(date) {
+      if (!date.isSame(this.get('date'), 'day')) {
+        this.sendAction('on-change', date.toDate());
+      }
     }
   },
+
+  date: computed({
+    get() {
+      return null;
+    },
+
+    set(key, value) {
+      this.set('selectedDate', momentJs(value));
+
+      return value;
+    }
+  }),
 
   /**
    * Initializes the calendar to the current month

@@ -186,14 +186,26 @@ export default DatePicker.extend({
   },
 
   startDate: computed({
+    get() {
+      return null;
+    },
+
     set(key, date) {
       this.set('selectedStartDate', momentJs(date || null));
+
+      return date;
     }
   }),
 
   endDate: computed({
+    get() {
+      return null;
+    },
+
     set(key, date) {
       this.set('selectedEndDate', momentJs(date || null));
+
+      return date;
     }
   }),
 

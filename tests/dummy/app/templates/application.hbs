@@ -14,7 +14,7 @@ Range
 No Range
 {{ui-date-calendar
   title="Show Date"
-  date=startOfMonth
+  date=date
   minDate=minDate
   maxDate=maxDate
   on-change="updateDate"
@@ -24,6 +24,9 @@ No Range
 <button {{action "toggleRange"}}>Toggle Range</button>
 
 <h4>Date Input</h4>
+{{ui-date-input on-change="updateDate" date=date placeholder="MM/DD/YYYY"}}
+
+<h4>Date Input (Range)</h4>
 {{ui-date-input on-change="updateStartDate" date=startDate placeholder="MM/DD/YYYY"}}
 -
 {{ui-date-input on-change="updateEndDate" date=endDate placeholder="MM/DD/YYYY"}}

@@ -11,6 +11,9 @@ const calendarDayTwentyOne = '.ff-date-calendar-month tbody tr td:contains(21)';
 const calendarDayTwelve = '.ff-date-calendar-month tbody tr td:contains(12)';
 const startDate = moment().startOf('month');
 const endDate = moment().endOf('month');
+const currentMonth = moment().format('MMMM YYYY');
+const previousMonth = moment().subtract(1, 'month').format('MMMM YYYY');
+const nextMonth = moment().add(1, 'month').format('MMMM YYYY');
 
 test('it renders', function(assert) {
   assert.expect(2);
@@ -33,7 +36,7 @@ test('calendar allows a user to view the previous month on calendar', function(a
 
   component.$(previousMonthButton).click();
 
-  assert.equal(component.$(currentCalendarMonthHeader).text(), 'May 2015', 'the previous month functions correctly');
+  assert.equal(component.$(currentCalendarMonthHeader).text(), previousMonth, 'the previous month functions correctly');
 });
 
 test('calendar allows a user to view the next month on calendar', function(assert) {
@@ -45,7 +48,7 @@ test('calendar allows a user to view the next month on calendar', function(asser
 
   component.$(nextMonthButton).click();
 
-  assert.equal(component.$(currentCalendarMonthHeader).text(), 'July 2015', 'the next month functions correctly');
+  assert.equal(component.$(currentCalendarMonthHeader).text(), nextMonth, 'the next month functions correctly');
 });
 
 test('calendar renders the current month as default', function(assert) {
@@ -55,7 +58,7 @@ test('calendar renders the current month as default', function(assert) {
 
   this.render();
 
-  assert.equal(component.$(currentCalendarMonthHeader).text(), 'June 2015', 'the current month renders correctly');
+  assert.equal(component.$(currentCalendarMonthHeader).text(), currentMonth, 'the current month renders correctly');
 });
 
 
