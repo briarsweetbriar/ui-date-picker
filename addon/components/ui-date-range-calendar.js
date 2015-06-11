@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import momentJs from 'moment';
 import { moment } from 'ember-moment/computed';
-import DatePicker from './ui-date-calendar';
+import DateCalendar from './ui-date-calendar';
 import layout from '../templates/components/ui-date-calendar';
 
 const {
@@ -19,9 +19,9 @@ const {
  * Represents a day, binds computed properties to the date.
  */
 const DateRangeCalendarDay = Ember.Object.extend({
-  selectedStartDate: reads('datePicker.selectedStartDate'),
-  selectedEndDate:   reads('datePicker.selectedEndDate'),
-  month:     reads('datePicker.currentMonth'),
+  selectedStartDate: reads('dateCalendar.selectedStartDate'),
+  selectedEndDate:   reads('dateCalendar.selectedEndDate'),
+  month:     reads('dateCalendar.currentMonth'),
 
   asDayOfMonth: moment('date', 'D'),
 
@@ -35,7 +35,7 @@ const DateRangeCalendarDay = Ember.Object.extend({
   }),
 
   /**
-   * Day is the selected start date in `datePicker`
+   * Day is the selected start date in `dateCalendar`
    *
    * @property isStartDate
    */
@@ -44,7 +44,7 @@ const DateRangeCalendarDay = Ember.Object.extend({
   }),
 
   /**
-   * Day is the selected end date in `datePicker`
+   * Day is the selected end date in `dateCalendar`
    *
    * @property isEndDate
    */
@@ -53,14 +53,14 @@ const DateRangeCalendarDay = Ember.Object.extend({
   }),
 
   /**
-   * Day is either select start or end date in `datePicker`
+   * Day is either select start or end date in `dateCalendar`
    *
    * @property isSelected
    */
   isSelected: or('isStartDate', 'isEndDate'),
 
   /**
-   * Day is in the selected range in `datePicker`
+   * Day is in the selected range in `dateCalendar`
    *
    * @property isStartDate
    */
@@ -80,8 +80,8 @@ const DateRangeCalendarDay = Ember.Object.extend({
   isDisabled: computed('minDate', 'maxDate', function() {
     // Reading via computeds wouldn't pass tests, accessing directly
     const date = this.get('date');
-    const minDate = this.get('datePicker.minDate') || null;
-    const maxDate = this.get('datePicker.maxDate') || null;
+    const minDate = this.get('dateCalendar.minDate') || null;
+    const maxDate = this.get('dateCalendar.maxDate') || null;
 
     return date.isAfter(maxDate) || date.isBefore(minDate);
   }),
@@ -97,26 +97,108 @@ const DateRangeCalendarDay = Ember.Object.extend({
   })
 });
 
-export default DatePicker.extend({
+export default DateCalendar.extend({
   layout: layout,
 
   dayClass: DateRangeCalendarDay,
 
+  /**
+   * Alias for value to extend `UiDateCalendar`'s functionality
+   *
+   * @property selectedStartDate
+   */
+  selectedStartDate: null,
+
+  /**
+   * The bound end date value
+   *
+   * @property selectedEndDate
+   */
+  selectedEndDate: null,
+
+  startDate: computed({
+    get() {
+      return null;
+    },
+
+    set(key, date) {
+      this.set('selectedStartDate', momentJs(date || null));
+
+      return date;
+    }
+  }),
+
+  endDate: computed({
+    get() {
+      return null;
+    },
+
+    set(key, date) {
+      this.set('selectedEndDate', momentJs(date || null));
+
+      return date;
+    }
+  }),
+
+  /**
+   * if `selectedStartDate` is the same as `selectedEndDate`
+   *
+   * @property isSingleDate
+   */
+  isSingleDate: computed('selectedStartDate', 'selectedEndDate', function() {
+    const selectedStartDate = this.get('selectedStartDate');
+    const selectedEndDate = this.get('selectedEndDate');
+
+    return momentJs(selectedStartDate).isSame(momentJs(selectedEndDate), 'day');
+  }),
+
+  /**
+   * if `selectedStartDate` is the same month as `selectedEndDate`
+   *
+   * @property isSingleMonth
+   */
+  isSingleMonth: computed('selectedStartDate', 'selectedEndDate', function() {
+    const selectedStartDate = this.get('selectedStartDate');
+    const selectedEndDate = this.get('selectedEndDate');
+
+    return this.get('rangeIsInMonths') && selectedStartDate.isSame(selectedEndDate, 'month');
+  }),
+
+  /**
+   * if `selectedStartDate` is the same day or month as `selectedEndDate`
+   *
+   * @property isSingleDateOrMonth
+   */
+  isSingleDateOrMonth: or('isSingleDate', 'isSingleMonth'),
+
+  /**
+   * Determines if the selected range begins at the start of a month and ends at the
+   * end of a month. Used for period selection and later month display.
+   *
+   * @property rangeIsInMonths
+   */
+  rangeIsInMonths: computed('selectedStartDate', 'selectedEndDate', function() {
+    const selectedStartDate = this.get('selectedStartDate');
+    const selectedEndDate = this.get('selectedEndDate');
+
+    return selectedStartDate.date() === 1 && (selectedEndDate.month() !== selectedEndDate.add(1, 'days').month());
+  }),
+
   actions: {
     /**
-     * Sets a date depending on the state of the DateRangePicker.
+     * Sets a date depending on the state of the DateRangeCalendarDay.
      *
-     * If the DateRangePicker is in range selection mode and a single date
+     * If the DateRangeCalendarDay is in range selection mode and a single date
      * is selected (`selectedStartDate` is the same as `selectedEndDate`) then a second date
      * is to be selected. Either `selectedStartDate` or `selectedEndDate` is assigned the
      * value of `date`, depending on its relation to the currently selected
      * date.
      *
-     * If the DateRangePicker is in range selection mode and two dates are
+     * If the DateRangeCalendarDay is in range selection mode and two dates are
      * already selected, both `selectedStartDate` and `selectedEndDate` are assigned the value
      * of `date` and a single date is chosen.
      *
-     * If the DateRangePicker is not in range selection mode, both `selectedStartDate`
+     * If the DateRangeCalendarDay is not in range selection mode, both `selectedStartDate`
      * and `selectedEndDate` are assigned the value of `date` and the date selection
      * dropdown is closed.
      *
@@ -183,87 +265,5 @@ export default DatePicker.extend({
       this.set('selectedStartDate', selectedStartDate.subtract(periodCount, periodType));
       this.set('selectedEndDate', selectedEndDate.subtract(periodCount, periodType).endOf(periodType));
     }
-  },
-
-  startDate: computed({
-    get() {
-      return null;
-    },
-
-    set(key, date) {
-      this.set('selectedStartDate', momentJs(date || null));
-
-      return date;
-    }
-  }),
-
-  endDate: computed({
-    get() {
-      return null;
-    },
-
-    set(key, date) {
-      this.set('selectedEndDate', momentJs(date || null));
-
-      return date;
-    }
-  }),
-
-  /**
-   * Alias for value to extend `UiDatePicker`'s functionality
-   *
-   * @property selectedStartDate
-   */
-  selectedStartDate: null,
-
-  /**
-   * The bound end date value
-   *
-   * @property selectedEndDate
-   */
-  selectedEndDate: null,
-
-  /**
-   * if `selectedStartDate` is the same as `selectedEndDate`
-   *
-   * @property isSingleDate
-   */
-  isSingleDate: computed('selectedStartDate', 'selectedEndDate', function() {
-    const selectedStartDate = this.get('selectedStartDate');
-    const selectedEndDate = this.get('selectedEndDate');
-
-    return momentJs(selectedStartDate).isSame(momentJs(selectedEndDate), 'day');
-  }),
-
-  /**
-   * if `selectedStartDate` is the same month as `selectedEndDate`
-   *
-   * @property isSingleMonth
-   */
-  isSingleMonth: computed('selectedStartDate', 'selectedEndDate', function() {
-    const selectedStartDate = this.get('selectedStartDate');
-    const selectedEndDate = this.get('selectedEndDate');
-
-    return this.get('rangeIsInMonths') && selectedStartDate.isSame(selectedEndDate, 'month');
-  }),
-
-  /**
-   * if `selectedStartDate` is the same day or month as `selectedEndDate`
-   *
-   * @property isSingleDateOrMonth
-   */
-  isSingleDateOrMonth: or('isSingleDate', 'isSingleMonth'),
-
-  /**
-   * Determines if the selected range begins at the start of a month and ends at the
-   * end of a month. Used for period selection and later month display.
-   *
-   * @property rangeIsInMonths
-   */
-  rangeIsInMonths: computed('selectedStartDate', 'selectedEndDate', function() {
-    const selectedStartDate = this.get('selectedStartDate');
-    const selectedEndDate = this.get('selectedEndDate');
-
-    return selectedStartDate.date() === 1 && (selectedEndDate.month() !== selectedEndDate.add(1, 'days').month());
-  })
+  }
 });

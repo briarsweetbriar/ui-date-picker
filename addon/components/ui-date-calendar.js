@@ -16,8 +16,8 @@ const { reads } = computed;
  * Represents a day, binds computed properties to the date.
  */
 const DateCalendarDay = Ember.Object.extend({
-  selectedDate: reads('datePicker.selectedDate'),
-  month: reads('datePicker.currentMonth'),
+  selectedDate: reads('dateCalendar.selectedDate'),
+  month: reads('dateCalendar.currentMonth'),
 
   asDayOfMonth: moment('date', 'D'),
 
@@ -31,7 +31,7 @@ const DateCalendarDay = Ember.Object.extend({
   }),
 
   /**
-   * Day is the selected day in `datePicker`
+   * Day is the selected day in `dateCalendar`
    *
    * @property isSelected
    */
@@ -47,8 +47,8 @@ const DateCalendarDay = Ember.Object.extend({
   isDisabled: computed('minDate', 'maxDate', function() {
     const date = this.get('date');
     // Reading via computeds wouldn't pass tests, accessing directly
-    const minDate = this.get('datePicker.minDate') || null;
-    const maxDate = this.get('datePicker.maxDate') || null;
+    const minDate = this.get('dateCalendar.minDate') || null;
+    const maxDate = this.get('dateCalendar.maxDate') || null;
 
     return date.isAfter(maxDate) || date.isBefore(minDate);
   }),
@@ -64,9 +64,9 @@ const DateCalendarDay = Ember.Object.extend({
 });
 
 /**
- * @module UiDatePicker
+ * @module UiDateCalendar
  *
- * Date picker component
+ * Date calendar component
  */
 export default Ember.Component.extend({
   layout: layout,
@@ -76,71 +76,12 @@ export default Ember.Component.extend({
 
   /**
    * The class used to represent individual days. This is defined
-   * here so that it is overloadable, allowing `UiDateRangePicker` to
+   * here so that it is overloadable, allowing `UiDateRangeCalendar` to
    * define it's own `dayClass` with more specialized behavior.
    *
    * @property value
    */
   dayClass: DateCalendarDay,
-
-  actions: {
-    /**
-     * Sets the current month to the previous month
-     *
-     * @method previousMonth
-     */
-    previousMonth() {
-      this.get('currentMonth').subtract(1, 'month').startOf('month');
-      // Since `subtract` mutates the moment object directly, no need to set it
-      this.propertyDidChange('currentMonth');
-    },
-
-    /**
-     * Sets the current month to the next month
-     *
-     * @method nextMonth
-     */
-    nextMonth() {
-      this.get('currentMonth').add(1, 'month').startOf('month');
-      // Since `subtract` mutates the moment object directly, no need to set it
-      this.propertyDidChange('currentMonth');
-    },
-
-    /**
-     * Sets the current month to the currently selected date, or the passed
-     * in date. This ensure that the user will always have context when opening
-     * the calendar.
-     *
-     * @method previousMonth
-     * @param [value] The date to set currentMonth to
-     */
-    setCurrentMonth(value) {
-      value = value || this.get('value');
-
-      if (value) {
-        this.set('currentMonth', momentJs(value).startOf('month'));
-      }
-    },
-
-    /**
-     * Selects a date
-     *
-     * @method selectDate
-     * @param [date] The date to select
-     */
-    selectDate(date, isDisabled) {
-      if (isDisabled) { return; }
-
-      this.set('selectedDate', date);
-      this.send('onChange', date);
-    },
-
-    onChange(date) {
-      if (!date.isSame(this.get('date'), 'day')) {
-        this.sendAction('on-change', date.toDate());
-      }
-    }
-  },
 
   date: computed({
     get() {
@@ -200,7 +141,7 @@ export default Ember.Component.extend({
 
       for (let iDay = 0; iDay < 7; iDay++) {
         week.push(this.get('dayClass').create({
-          datePicker: this,
+          dateCalendar: this,
           date: currentDay.clone()
         }));
         currentDay.add(1, 'day');
@@ -210,5 +151,65 @@ export default Ember.Component.extend({
     }
 
     return weeks;
-  })
+  }),
+
+  actions: {
+    /**
+     * Sets the current month to the previous month
+     *
+     * @method previousMonth
+     */
+    previousMonth() {
+      this.get('currentMonth').subtract(1, 'month').startOf('month');
+      // Since `subtract` mutates the moment object directly, no need to set it
+      this.propertyDidChange('currentMonth');
+    },
+
+    /**
+     * Sets the current month to the next month
+     *
+     * @method nextMonth
+     */
+    nextMonth() {
+      this.get('currentMonth').add(1, 'month').startOf('month');
+      // Since `subtract` mutates the moment object directly, no need to set it
+      this.propertyDidChange('currentMonth');
+    },
+
+    /**
+     * Sets the current month to the currently selected date, or the passed
+     * in date. This ensure that the user will always have context when opening
+     * the calendar.
+     *
+     * @method previousMonth
+     * @param [value] The date to set currentMonth to
+     */
+    setCurrentMonth(value) {
+      value = value || this.get('value');
+
+      if (value) {
+        this.set('currentMonth', momentJs(value).startOf('month'));
+      }
+    },
+
+    /**
+     * Selects a date
+     *
+     * @method selectDate
+     * @param [date] The date to select
+     */
+    selectDate(date, isDisabled) {
+      if (isDisabled) { return; }
+
+      // debugger
+      this.set('selectedDate', date);
+      this.send('onChange', date);
+    },
+
+    onChange(date) {
+      if (!date.isSame(this.get('date'), 'day')) {
+        this.sendAction('on-change', date.toDate());
+      }
+    }
+  }
 });
