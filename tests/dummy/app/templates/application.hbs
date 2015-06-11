@@ -1,3 +1,86 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<h4>Date Calendar</h4>
 
-{{outlet}}
+{{#if range}}
+Range
+{{ui-date-range-calendar
+  title="Show Date"
+  startDate=startDate
+  endDate=endDate
+  minDate=minDate
+  maxDate=maxDate
+  on-change="updateDates"
+}}
+{{else}}
+No Range
+{{ui-date-calendar
+  title="Show Date"
+  date=date
+  minDate=minDate
+  maxDate=maxDate
+  on-change="updateDate"
+}}
+{{/if}}
+
+<button {{action "toggleRange"}}>Toggle Range</button>
+
+<h4>Date Input</h4>
+{{ui-date-input on-change="updateDate" date=date placeholder="MM/DD/YYYY"}}
+
+<h4>Date Input (Range)</h4>
+{{ui-date-input on-change="updateStartDate" date=startDate placeholder="MM/DD/YYYY"}}
+-
+{{ui-date-input on-change="updateEndDate" date=endDate placeholder="MM/DD/YYYY"}}
+
+<h4>Date Select</h4>
+
+{{ui-date-select
+  title="Today"
+  date=startDate
+  selectedDate=todayDate
+  action="updateDate"
+}}
+
+{{ui-date-select
+  title="Yesterday"
+  date=startDate
+  selectedDate=yesterdayDate
+  action="updateDate"
+}}
+
+<h4>Date Range Select</h4>
+
+{{ui-date-range-select
+  title="This Week"
+  startDate=startDate
+  endDate=endDate
+  rangeStart=startOfWeek
+  rangeEnd=endOfWeek
+  action="updateDates"
+}}
+
+{{ui-date-range-select
+  title="This Month"
+  startDate=startDate
+  endDate=endDate
+  rangeStart=startOfMonth
+  rangeEnd=endOfMonth
+  action="updateDates"
+}}
+
+{{ui-date-range-select
+  title="This Quarter"
+  startDate=startDate
+  endDate=endDate
+  rangeStart=startOfQuarter
+  rangeEnd=endOfQuarter
+  action="updateDates"
+}}
+
+{{ui-date-range-select
+  title="This Year"
+  startDate=startDate
+  endDate=endDate
+  rangeStart=startOfYear
+  rangeEnd=endOfYear
+  action="updateDates"
+}}
