@@ -1,5 +1,7 @@
 # Ui-date-picker
 
+[![Build Status](https://travis-ci.org/firefly-ui/ui-date-picker.svg)](https://travis-ci.org/firefly-ui/ui-date-picker)
+
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
