@@ -6,6 +6,8 @@ const {
 } = Ember;
 
 export default Ember.TextField.extend({
+  classNames: ['ff-date-input'],
+
   date: computed('formattedDate', {
     get() {
       return moment(this.get('formattedDate')).toDate();
