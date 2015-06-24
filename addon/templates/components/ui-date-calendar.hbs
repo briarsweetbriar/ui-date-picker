@@ -8,7 +8,7 @@
 <table class="ff-date-calendar-month">
   <thead>
     <tr>
-      {{#each dayNames as |dayOfWeek|}}
+      {{#each dayNames key='@index' as |dayOfWeek|}}
         <th class="ff-date-calendar-header">{{dayOfWeek}}</th>
       {{/each}}
     </tr>
