@@ -25,7 +25,7 @@ export default Ember.TextField.extend({
 
     set(key, formattedDate) {
       if (formattedDate.match(/\d\d\/\d\d\/\d\d\d\d/)) {
-        const date = moment(formattedDate);
+        const date = moment(formattedDate, 'MM/DD/YYYY');
 
         if (!date.isSame(this.get('date'), 'day')) {
           this.sendAction('on-change', date.toDate());
