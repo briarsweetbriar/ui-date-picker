@@ -12,6 +12,8 @@ export default Ember.Component.extend({
 
   tagName: 'button',
 
+  classNames: ['ff-date-range-select'],
+
   classNameBindings: ['active'],
 
   /**

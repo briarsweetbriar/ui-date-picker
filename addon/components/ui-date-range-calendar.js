@@ -102,6 +102,8 @@ export default DateCalendar.extend({
 
   dayClass: DateRangeCalendarDay,
 
+  classNames: ['ff-date-range-calendar'],
+
   /**
    * Alias for value to extend `UiDateCalendar`'s functionality
    *
