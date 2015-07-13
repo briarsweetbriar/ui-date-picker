@@ -1,5 +1,4 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import moment from 'moment';
 
 moduleForComponent('ui-date-input', 'component:ui-date-input', {});
 

@@ -8,13 +8,12 @@ const endDate = moment().endOf('week');
 const todayDate = moment();
 const startOfWeek = moment().startOf('week');
 const endOfWeek = moment().endOf('week');
-const componentButton = 'button';
 
 test('it renders', function(assert) {
   assert.expect(2);
 
   var component = this.subject();
-  
+
   assert.equal(component._state, 'preRender');
 
   this.render();

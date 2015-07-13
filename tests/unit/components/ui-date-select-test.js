@@ -5,13 +5,12 @@ moduleForComponent('ui-date-select', 'component:ui-date-select', {});
 
 const startDate = moment().startOf('week');
 const todayDate = moment();
-const todayButton = 'button';
 
 test('it renders', function(assert) {
   assert.expect(2);
 
   var component = this.subject();
-  
+
   assert.equal(component._state, 'preRender');
 
   this.render();
