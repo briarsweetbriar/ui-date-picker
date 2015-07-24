@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import momentJs from 'moment';
-import { moment } from 'ember-moment/computed';
+import moment from 'ember-moment/computeds/moment';
 import layout from '../templates/components/ui-date-calendar';
 
 const {
