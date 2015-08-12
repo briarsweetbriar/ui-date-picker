@@ -70,7 +70,7 @@
     <table class="tf-date-picker__calendar-month">
       <thead>
         <tr>
-          {{#each dayNames as |dayOfWeek|}}
+          {{#each dayNames key="@index" as |dayOfWeek|}}
             <th class="tf-date-picker__calendar-header">{{dayOfWeek}}</th>
           {{/each}}
         </tr>
