@@ -1,3 +1,286 @@
+$dropdown-shadow-color: rgba(0,0,0,0.15);
+
+$tooltip-background: #000;
+
+Color variables, subject to name changes
+// NOT USED IN ACTUAL STYLESHEETS. Make other
+// variables with semantic names based on these.
+
+$white: #FFFFFF;
+$gray-lightest: #F6F6F6;
+
+$green: #30E09B;
+$green-dark: #32AB7B;
+$green-light: #B4F4DB;
+
+$indigo: #574CDA;
+$indigo-dark: #3F3892;
+
+$blue: #25AEFC;
+$blue-dark: #1380C0;
+
+$red: #FD6967;
+$red-dark: #C05654;
+
+$yellow: #F0AD4E;
+$yellow-dark: #EC971F;
+
+$magenta: #DD59FC;
+$magenta-dark: #B348C1;
+
+$gray-lighter: #E5E5E5;
+$gray-light: #D1D2E4;
+$gray: #BDBDBD;
+
+$gray-med: #999A9B;
+
+$black: #19181D;
+$gray-dark: #3D3C4A;
+
+// Semantic variables, used throughout
+
+$default: $white;
+$default-active: $gray-lighter;
+$default-color: $gray-med;
+$default-border: #ddd;
+
+$inverse: $gray-lighter;
+$inverse-active: $gray-light;
+$inverse-color: $gray-med;
+$inverse-color-active: darken($gray-med, 10%);
+$inverse-border: $gray-lighter;
+
+$primary: $indigo;
+$primary-active: $indigo-dark;
+$primary-color: $white;
+
+$success: $green;
+$success-active: $green-dark;
+$success-color: $white;
+
+$danger: $red;
+$danger-active: $red-dark;
+$danger-color: $white;
+
+$warning: $yellow;
+$warning-active: $yellow-dark;
+$warning-color: $white;
+
+$info: $blue;
+$info-active: $blue-dark;
+$info-color: $white;
+
+// input
+
+$input-bg: $default;
+$input-color: $default-color;
+
+$input-bg-inverse: $inverse;
+$input-color-inverse: $inverse-color;
+
+// popover
+
+$popover-color: $default;
+
+// Transitions
+
+$fast-fade: 0.2s ease-in-out;
+
+// Bootstrap overrides, minimize these
+
+$border-radius-base: 2px;
+$border-radius-large: 2px;
+$border-radius-small: 2px;
+
+$navbar-inverse-bg: $gray-dark;
+$navbar-inverse-link-active-bg: $black;
+
+.tf-btn-group {
+  @extend .btn-group;
+}
+.tf-btn {
+  @extend .btn;
+  border: none;
+
+  box-sizing: border-box;
+
+  @include transition(background-color $fast-fade);
+
+  &.tf-btn--tiny {
+    @extend .btn-xs;
+  }
+
+  &.tf-btn--small {
+    @extend .btn-sm;
+  }
+
+  &.tf-btn--large {
+    @extend .btn-lg;
+  }
+
+  &.tf-btn--block {
+    @extend .btn-block;
+  }
+
+  &.tf-btn--default {
+    color: $default-color;
+    background-color: $default;
+    border: solid 1px $default-border;
+
+    &:hover, &.active {
+      background-color: $default-active;
+    }
+  }
+
+  &.tf-btn--inverse {
+    color: $inverse-color;
+    background-color: $inverse;
+
+    &:hover, &.active {
+      background-color: $inverse-active;
+    }
+  }
+
+  &.tf-btn--primary {
+    color: $primary-color;
+    background-color: $primary;
+
+    &:hover, &.active {
+      background-color: $primary-active;
+    }
+  }
+
+  &.tf-btn--success {
+    color: $success-color;
+    background-color: $success;
+
+    &:hover, &.active {
+      background-color: $success-active;
+    }
+  }
+
+  &.tf-btn--danger {
+    color: $danger-color;
+    background-color: $danger;
+
+    &:hover, &.active {
+      background-color: $danger-active;
+    }
+  }
+
+  &.tf-btn--warning {
+    color: $warning-color;
+    background-color: $warning;
+
+    &:hover, &.active {
+      background-color: $warning-active;
+    }
+  }
+
+  &.tf-btn--info {
+    color: $info-color;
+    background-color: $info;
+
+    &:hover, &.active {
+      background-color: $info-active;
+    }
+  }
+
+  &.tf-btn--outline {
+    background-color: transparent;
+    border: solid 2px;
+    @include transition(color $fast-fade, border-color $fast-fade);
+    padding: 4px 10px;
+
+
+    &:hover, &.active {
+      background-color: transparent;
+    }
+
+    &.tf-btn--default, &.tf-inverse {
+      color: $inverse-color;
+      border-color: $inverse-color;
+
+      &:hover, &.active {
+        color: $inverse-color-active;
+        border-color: $inverse-color-active;
+      }
+    }
+
+    &.tf-btn--primary {
+      color: $primary;
+      border-color: $primary;
+
+      &:hover, &.active {
+        color: $primary-active;
+        border-color: $primary-active;
+      }
+    }
+
+    &.tf-btn--success {
+      color: $success;
+      border-color: $success;
+
+      &:hover, &.active {
+        color: $success-active;
+        border-color: $success-active;
+      }
+    }
+
+    &.tf-btn--danger {
+      color: $danger;
+      border-color: $danger;
+
+      &:hover, &.active {
+        color: $danger-active;
+        border-color: $danger-active;
+      }
+    }
+
+    &.tf-btn--warning {
+      color: $warning;
+      border-color: $warning;
+
+      &:hover, &.active {
+        color: $warning-active;
+        border-color: $warning-active;
+      }
+    }
+
+    &.tf-btn--info {
+      color: $info;
+      border-color: $info;
+
+      &:hover, &.active {
+        color: $info-active;
+        border-color: $info-active;
+      }
+    }
+  }
+
+  &.tf-btn--square {
+    width: 80px;
+    height: 80px;
+
+    span {
+      display: block;
+    }
+
+    &.tf-btn--square-large {
+      width: 160px;
+    }
+
+    .tf-btn--square__title {
+      font-size: 0.8em;
+      line-height: 0.3em;
+    }
+
+    .tf-btn--square__icon {
+      margin-top: 0.3em;
+      font-size: 2.8em;
+    }
+  }
+}
 .tf-date-picker {
   header {
     -webkit-touch-callout: none;
